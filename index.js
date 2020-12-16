@@ -163,8 +163,8 @@ app.post("/import", (req, res) => {
     pool.query(sql, product, (err, result) => {
       if (err) {
         console.log(err);
-        errmess += `\nBook ID: ${err.detail} - Error message: ${err.message}`;
-        console.log(errmess);
+        errmess += `\nBook ID: ${err.detail} - Error: ${err.message}`;
+        //console.log(errmess);
         countError++;
       } else {
         console.log(`Inserted successfully`);
@@ -178,14 +178,19 @@ app.post("/import", (req, res) => {
       return console.error(err.message);
     }
     var countSuccess = lines.length - countError;
-    var initial = result.rows.length - lines.length;
+    var initial = result.rows.length - countSuccess;
 
     message += `\nInitial number of books in the database: ${initial} `;
-    message += `\nBooks Inserted successfully: ${lines.length}`;
+
+    message += `\nBooks Inserted successfully: ${countSuccess}`;
+
     message += `\nResulting number of books in the database: ${result.rows.length}`;
+
     if (countError !== 0) {
-      message += `\nErrors Summary:`;
-      message += `\nRecords: Not Inserted: ${countError}`;
+      message += `\n\nErrors Summary:`;
+      message += `\nTotal books recorded processed: ${lines.length}`;
+      message += `\nNumber of books not inserted: ${countError}`;
+      message += "\n\nDetailed Errors:";
       message += errmess;
     }
     res.send(message);
