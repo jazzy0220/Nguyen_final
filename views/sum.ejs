@@ -1,0 +1,46 @@
+<%- include("_header") -%>
+<br>
+<h1>Calculate Sum of a Series:</h1>
+
+<div class="container">
+  <form class="form-horizontal" action="/sum" method="post">
+
+    <div class="form-group form-inline">
+      <label class="control-label col-sm-2" for="startnum">Enter Starting Number</label>
+      <div class="col-sm-10 form-inline">  
+        <input type="number" class="form-control" id="startnum" name="startnum" required value=<%= data[0] %> >
+        <p>	&nbsp;(required)</p>
+      </div>
+    </div>
+
+    <div class="form-group form-inline">
+      <label class="control-label col-sm-2" for="endnum">Enter Ending Number</label>
+      <div class="col-sm-10 form-inline">  
+        <input type="number" class="form-control" id="endnum" name="endnum" required value=<%= data[1] %> >
+        <p>	&nbsp;(required)</p>
+      </div>
+    </div>
+
+    <div class="form-group form-inline">
+      <label class="control-label col-sm-2" for="incre">Enter Increment</label>
+      <div class="col-sm-10 form-inline">  
+        <input type="number" class="form-control" id="incre" name="incre" required value=<%= data[2] %> >
+        <p>	&nbsp;(required)</p>
+      </div>
+    </div>
+
+    <div class="form-group form-inline" style="display: flex; margin-left: 200px;">
+        <div class="col-sm-offset-10 col-xs-3">
+            <input type="submit" value="Calculate Sum" class="btn btn-primary"/>
+        </div>
+    </div>
+  </form>
+</div>
+
+<% if(display === true && message === "") { %>
+    <h2>The sum of the numbers from <%= data[0] %> to <%= data[1] %> is <b><%= sum %></b></h2>
+<% } else if (display === true && message !== "") { %>
+    <h2 style="color:red;"><%= message %></h2>
+<% }  %>
+
+<%- include("_footer") -%>

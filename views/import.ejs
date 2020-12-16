@@ -1,0 +1,40 @@
+<%- include("_header") -%>
+<br>
+<h1>Import Books</h1>
+<h4>Total number of books in the database: <b><%= books.length %></b></h4>
+<h4>Select a file with books for Database Insert</h4>
+
+<div>
+    <form>
+        <input value="Choose file" type="file" id="filename" name="filename" required><p></p>
+        <input class="btn btn-primary" type="submit" value="Import Books" style="display: flex; margin-left: 200px;">
+    </form>
+</div>
+
+<p id="result"></p>
+
+<script>
+    document.querySelector("form").addEventListener("submit", e => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        
+        fetch("/import", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(data => {
+            const resultElement = document.getElementById("result");
+            if (data.substring(0,5) === "Error") {
+                resultElement.innerText = `Error occurred!  ${data}`;
+            } else {
+                resultElement.innerText = data;
+            };
+        })
+        .catch(err => {
+            document.getElementById("message").textContent = `Error: ${err.message}`;
+        });
+    });
+</script>
+
+<%- include("_footer") -%>
